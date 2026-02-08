@@ -345,8 +345,10 @@ with col3:
         icon = "🔂"
     elif st.session_state["loop"] == 2:
         icon = "🔁"
-    else:
+    elif st.session_state["loop"] == 3:
         icon = "🔀"
+    else:
+        raise NotImplementedError()
 
     looper = st.button(
         icon, 
@@ -408,11 +410,20 @@ if play:
         st.session_state['current_track'] = "All Tracks"
         update_curr_track(curr_playing)
 
-        
         st.session_state["process"] = Thread(
             target=play_album, 
             args=(selected_track, get_key_map(), st.session_state['stop_event'])
         )
+
+    elif st.session_state['loop'] == 3:
+        st.session_state['current_track'] = "All Tracks (Random Shuffle)"
+        update_curr_track(curr_playing)
+
+        st.session_state["process"] = Thread(
+            target=play_album_random, 
+            args=(selected_track, get_key_map(), st.session_state['stop_event'])
+        )
+
     else:
         raise NotImplementedError()
     
