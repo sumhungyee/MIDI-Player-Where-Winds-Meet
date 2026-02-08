@@ -157,6 +157,17 @@ def play_album(track_path, key_map, stop_event, min_velocity = 0):
         iteration += 1
         time.sleep(2)
 
+def play_album_random(track_path, key_map, stop_event, min_velocity = 0):
+    import random
+    curr_track_path = track_path
+    while not stop_event.is_set():
+        
+        play_track(curr_track_path, key_map, stop_event, min_velocity = min_velocity)
+        path = list(pathlib.Path("./tracks").iterdir())
+        path.remove(curr_track_path)
+        curr_track_path = random.choice(path)
+        time.sleep(2)
+        
 
 def transpose_track(track_path, num, auto=True):
 
